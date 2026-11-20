@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { CURATED_REPOS } from "../data/repos";
 import { SOURCES, TOPICS } from "../data/sources";
+import { highlightTerms, isQueryActive, parseQuery, searchStories } from "../lib/search";
 import type { Story } from "../types";
+import { Icon } from "./Icon";
 import { SearchField } from "./SearchField";
 import { SourcePlate } from "./SourcePlate";
 import { StateMessage } from "./StateMessage";
@@ -17,14 +20,12 @@ interface TopicsPageProps {
 export function TopicsPage({ stories, savedStories, loading, onToggleSaved }: TopicsPageProps) {
   const [query, setQuery] = useState("");
   const trimmedQuery = query.trim();
-  const results = useMemo(() => {
-    const search = trimmedQuery.toLowerCase();
-    return stories.filter((story) => {
-      const topic = TOPICS.find((item) => item.id === story.topic)?.label ?? "";
-      const source = SOURCES.find((item) => item.id === story.source)?.name ?? story.source;
-      return `${story.title} ${story.summary} ${topic} ${source}`.toLowerCase().includes(search);
-    });
-  }, [stories, trimmedQuery]);
+  const parsed = useMemo(() => parseQuery(query), [query]);
+  const terms = useMemo(() => highlightTerms(parsed), [parsed]);
+  const results = useMemo(
+    () => (isQueryActive(parsed) ? searchStories(stories, parsed).map((result) => result.story) : []),
+    [stories, parsed],
+  );
 
   return (
     <main className="page-content">
@@ -54,6 +55,7 @@ export function TopicsPage({ stories, savedStories, loading, onToggleSaved }: To
                 story={story}
                 saved={savedStories.some((item) => item.id === story.id)}
                 onToggleSaved={onToggleSaved}
+                terms={terms}
               />
             ))
           ) : (
@@ -84,6 +86,16 @@ export function TopicsPage({ stories, savedStories, loading, onToggleSaved }: To
               );
             })}
           </section>
+
+          <Link className="repos-promo" to="/repos">
+            <span className="repos-promo-icon" aria-hidden="true"><Icon name="repo" /></span>
+            <span className="repos-promo-copy">
+              <span className="page-kicker">FOR BUILDERS</span>
+              <strong>AI repos worth starring</strong>
+              <span>{CURATED_REPOS.length} hand-picked GitHub repos from Karpathy, Andrew Ng, Simon Willison, Sebastian Raschka and more, plus what's rising this month.</span>
+            </span>
+            <span className="repos-promo-arrow" aria-hidden="true">→</span>
+          </Link>
 
           <section className="sources-section" aria-labelledby="sources-title">
             <div className="section-label"><h2 id="sources-title">THE SOURCES</h2><span>8 publishers</span></div>

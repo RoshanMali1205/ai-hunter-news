@@ -5,6 +5,7 @@ import { formatDate, formatRelativeTime } from "../lib/time";
 import type { Story } from "../types";
 import { BookmarkButton } from "./BookmarkButton";
 import { Icon } from "./Icon";
+import { ShareButton } from "./ShareButton";
 import { SourcePlate } from "./SourcePlate";
 import { StoryRow } from "./StoryRow";
 import { StateMessage } from "./StateMessage";
@@ -44,7 +45,10 @@ export function ArticleView({ story, allStories, savedStories, onToggleSaved }: 
     <main className="article-page">
       <header className="story-sticky">
         <Link to="/" className="story-back"><Icon name="back" /> <span>News</span></Link>
-        <BookmarkButton saved={saved} onClick={() => onToggleSaved(story)} />
+        <div className="story-sticky-actions">
+          <ShareButton title={story.title} url={story.url} />
+          <BookmarkButton saved={saved} onClick={() => onToggleSaved(story)} />
+        </div>
       </header>
       <article>
         <div className={`article-hero${!story.image || imageFailed ? " no-image" : ""}`}>

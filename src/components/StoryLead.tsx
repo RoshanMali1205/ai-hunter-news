@@ -10,14 +10,16 @@ interface StoryLeadProps {
   story: Story;
   saved: boolean;
   onToggleSaved: (story: Story) => void;
+  read?: boolean;
+  isNew?: boolean;
 }
 
-export function StoryLead({ story, saved, onToggleSaved }: StoryLeadProps) {
+export function StoryLead({ story, saved, onToggleSaved, read = false, isNew = false }: StoryLeadProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const topic = TOPICS.find((item) => item.id === story.topic);
 
   return (
-    <article className="story-lead">
+    <article className={`story-lead${read ? " is-read" : ""}`} data-feed-item data-story-id={story.id}>
       <Link to={`/story/${story.id}`} className={`story-lead-visual${!story.image || imageFailed ? " no-image" : ""}`}>
         {story.image && !imageFailed ? (
           <img
@@ -35,6 +37,7 @@ export function StoryLead({ story, saved, onToggleSaved }: StoryLeadProps) {
       </Link>
       <div className="story-lead-copy">
         <div className="lead-byline">
+          {isNew && <span className="new-badge">New</span>}
           <SourcePlate source={story.source} compact />
           <span>{SOURCE_BY_ID[story.source].name}</span>
           <span aria-hidden="true">·</span>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { SOURCE_BY_ID } from "../data/sources";
+import { highlightTerms, isQueryActive, parseQuery, searchStories } from "../lib/search";
 import { SearchField } from "./SearchField";
 import { StateMessage } from "./StateMessage";
 import { StoryRow } from "./StoryRow";
@@ -12,15 +12,11 @@ interface SavedPageProps {
 
 export function SavedPage({ savedStories, onToggleSaved }: SavedPageProps) {
   const [query, setQuery] = useState("");
-  const search = query.trim().toLowerCase();
+  const parsed = useMemo(() => parseQuery(query), [query]);
+  const terms = useMemo(() => highlightTerms(parsed), [parsed]);
   const stories = useMemo(
-    () =>
-      savedStories.filter((story) =>
-        `${story.title} ${story.summary} ${SOURCE_BY_ID[story.source]?.name ?? story.source}`
-          .toLowerCase()
-          .includes(search),
-      ),
-    [savedStories, search],
+    () => (isQueryActive(parsed) ? searchStories(savedStories, parsed).map((result) => result.story) : savedStories),
+    [savedStories, parsed],
   );
 
   return (
@@ -39,6 +35,7 @@ export function SavedPage({ savedStories, onToggleSaved }: SavedPageProps) {
               story={story}
               saved
               onToggleSaved={onToggleSaved}
+              terms={terms}
             />
           ))}
         </section>

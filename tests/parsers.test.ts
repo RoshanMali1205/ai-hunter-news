@@ -165,3 +165,14 @@ test("parses Anthropic news cards without relying on CSS classes", async () => {
   assert.equal(stories[0].image, undefined);
   assert.equal(stories[1].summary, "Anthropic brings its science program to additional research institutions.");
 });
+
+test("assignUniqueIds drops the same title from the same source under a different URL", async () => {
+  const { assignUniqueIds } = await import("../src/lib/id");
+  const base = { source: "anthropic" as const, publishedAt: "2026-10-27T00:00:00Z", topic: "products" as const, summary: "" };
+  const result = assignUniqueIds([
+    { ...base, id: "", title: "Expanding our partnership with GSA", url: "https://www.anthropic.com/news/gsa" },
+    { ...base, id: "", title: "Expanding  our partnership with GSA ", url: "https://www.anthropic.com/news/gsa/" },
+    { ...base, id: "", source: "verge", title: "Expanding our partnership with GSA", url: "https://www.theverge.com/gsa" },
+  ]);
+  assert.equal(result.length, 2); // same title from a different source is kept
+});

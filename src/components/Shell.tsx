@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { BottomNav } from "./BottomNav";
+import { SiteFooter } from "./SiteFooter";
 
 interface ShellProps {
   savedCount: number;
@@ -27,6 +28,7 @@ export function Shell({ savedCount, error, storageError, onRetry }: ShellProps) 
       )}
       {storageError && <div className="storage-banner" role="status">{storageError}</div>}
       <Outlet />
+      <SiteFooter />
       <BottomNav savedCount={savedCount} />
     </div>
   );
