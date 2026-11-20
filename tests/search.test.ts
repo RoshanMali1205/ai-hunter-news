@@ -110,3 +110,11 @@ test("highlighting still works when text contains characters that expand when no
   assert.deepEqual(parts.filter((part) => part.hit).map((part) => part.text), ["agent"]);
   assert.equal(parts.map((part) => part.text).join(""), "…how coding agents are accelerating");
 });
+
+test("Microsoft sources are searchable and Microsoft Research posts classify as research", async () => {
+  const { classifyTopic } = await import("../src/lib/classify");
+  assert.equal(classifyTopic("Making coding agents more efficient", "", "msresearch"), "research");
+  assert.equal(classifyTopic("Microsoft unveils 7 AI models", "", "microsoft"), "frontier-models");
+  assert.deepEqual(parseQuery("source:microsoft").sources, ["microsoft"]);
+  assert.deepEqual(parseQuery("source:msresearch").sources, ["msresearch"]);
+});

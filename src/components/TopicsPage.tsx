@@ -98,7 +98,7 @@ export function TopicsPage({ stories, savedStories, loading, onToggleSaved }: To
           </Link>
 
           <section className="sources-section" aria-labelledby="sources-title">
-            <div className="section-label"><h2 id="sources-title">THE SOURCES</h2><span>8 publishers</span></div>
+            <div className="section-label"><h2 id="sources-title">THE SOURCES</h2><span>{SOURCES.length} publishers</span></div>
             <div className="source-list">
               {SOURCES.map((source) => (
                 <a

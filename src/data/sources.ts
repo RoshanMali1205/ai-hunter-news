@@ -88,6 +88,26 @@ export const SOURCES: SourceDefinition[] = [
     siteUrl: "https://www.anthropic.com",
     format: "html",
   },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    shortName: "Microsoft",
+    initials: "MS",
+    color: "#0F6CBD",
+    feedUrl: "https://news.microsoft.com/source/topics/ai/feed/",
+    siteUrl: "https://news.microsoft.com/source/topics/ai/",
+    format: "rss",
+  },
+  {
+    id: "msresearch",
+    name: "Microsoft Research",
+    shortName: "MS Research",
+    initials: "MSR",
+    color: "#5C2E91",
+    feedUrl: "https://www.microsoft.com/en-us/research/feed/",
+    siteUrl: "https://www.microsoft.com/en-us/research/",
+    format: "rss",
+  },
 ];
 
 export const TOPICS: { id: TopicId; label: string; color: string; description: string }[] = [

@@ -48,6 +48,8 @@ export function sourceNameForBriefing(source: SourceId): string {
     deepmind: "Google DeepMind",
     ars: "Ars Technica",
     anthropic: "Anthropic",
+    microsoft: "Microsoft",
+    msresearch: "Microsoft Research",
   };
   return names[source];
 }
