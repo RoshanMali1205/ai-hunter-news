@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <item>
+      <title>Introducing GPT-99: a new OpenAI model</title>
+      <link>https://openai.com/index/gpt-99/?utm_source=newsletter&amp;ref=feed</link>
+      <pubDate>Fri, 20 Nov 2026 10:00:00 GMT</pubDate>
+      <description><![CDATA[<p>OpenAI introduces a new model for complex tasks. Its capabilities are described in the linked report. Read more</p>]]></description>
+      <category>Launch</category>
+    </item>
+    <item>
+      <title>Introducing GPT-99: a duplicate copy</title>
+      <link>https://openai.com/index/gpt-99/?utm_medium=email&amp;ref=feed</link>
+      <pubDate>Thu, 19 Nov 2026 10:00:00 GMT</pubDate>
+      <description>A duplicate URL with a different tracking parameter.</description>
+    </item>
+    <item>
+      <title>Customer teams share their AI experience</title>
+      <link>https://openai.com/index/customer-stories/ai-experience</link>
+      <pubDate>Fri, 20 Nov 2026 09:00:00 GMT</pubDate>
+      <description>A customer story that must not enter the edition.</description>
+    </item>
+    <item>
+      <title>New AI podcast episode is available</title>
+      <link>https://openai.com/index/podcast/new-episode</link>
+      <pubDate>Fri, 20 Nov 2026 08:00:00 GMT</pubDate>
+      <description>A podcast item that must not enter the edition.</description>
+    </item>
+    <item>
+      <title>Sponsored AI coverage is discussed</title>
+      <link>https://openai.com/index/sponsored-coverage/</link>
+      <pubDate>Fri, 20 Nov 2026 07:00:00 GMT</pubDate>
+      <description>This title alone is not a reason to skip a story.</description>
+    </item>
+  </channel>
+</rss>

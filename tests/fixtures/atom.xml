@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+  <entry>
+    <title>Verge tracks Nvidia's new AI chips</title>
+    <link rel="alternate" href="/ai/2026/11/20/nvidia-story" />
+    <published>2026-11-20T11:00:00Z</published>
+    <summary type="html">&amp;lt;p&amp;gt;Nvidia is preparing a new GPU design for AI systems. &amp;lt;img src=&amp;quot;/assets/ai-chips.webp&amp;quot; width=&amp;quot;640&amp;quot; height=&amp;quot;480&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;</summary>
+    <category term="AI" />
+  </entry>
+  <entry>
+    <title>Verge item with a tracking pixel</title>
+    <link rel="alternate" href="https://www.theverge.com/ai/tracking-pixel" />
+    <updated>2026-11-20T09:00:00Z</updated>
+    <summary type="html">&amp;lt;p&amp;gt;A test summary. &amp;lt;img src=&amp;quot;/pixel.gif&amp;quot; width=&amp;quot;1&amp;quot; height=&amp;quot;1&amp;quot;&amp;gt;&amp;lt;/p&amp;gt;</summary>
+  </entry>
+</feed>
