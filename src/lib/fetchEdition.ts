@@ -1,10 +1,20 @@
 import { SOURCES } from "../data/sources";
 import { assignUniqueIds } from "./id";
 import { parseFeed } from "./parseFeed";
-import type { CachedEdition, Story } from "../types";
+import type { CachedEdition, SourceId, Story } from "../types";
 
-export interface EditionResult extends CachedEdition {
+export interface SourceCoverage {
   successfulSources: number;
+  failedSourceIds: SourceId[];
+}
+
+export interface EditionResult extends CachedEdition, SourceCoverage {}
+
+/** English list: "The Verge", "The Verge and Anthropic", "The Verge, MIT, and Anthropic". */
+export function formatMissingSources(names: string[]): string {
+  if (names.length <= 1) return names[0] ?? "";
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(", ")}, and ${names[names.length - 1]}`;
 }
 
 async function fetchSource(source: (typeof SOURCES)[number]): Promise<Story[]> {
@@ -20,6 +30,9 @@ async function fetchSource(source: (typeof SOURCES)[number]): Promise<Story[]> {
 
 export async function fetchEdition(): Promise<EditionResult> {
   const settled = await Promise.allSettled(SOURCES.map(fetchSource));
+  const failedSourceIds = SOURCES.flatMap((source, index) =>
+    settled[index]?.status === "rejected" ? [source.id] : [],
+  );
   const storyGroups = settled
     .filter((result): result is PromiseFulfilledResult<Story[]> => result.status === "fulfilled")
     .map((result) => result.value);
@@ -35,5 +48,6 @@ export async function fetchEdition(): Promise<EditionResult> {
     updatedAt: new Date().toISOString(),
     stories: identifiedStories,
     successfulSources,
+    failedSourceIds,
   };
 }

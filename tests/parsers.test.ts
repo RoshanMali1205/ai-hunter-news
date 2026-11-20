@@ -7,6 +7,7 @@ import { SOURCES } from "../src/data/sources";
 import { FALLBACK_STORIES } from "../src/data/fallback";
 import { fallbackBriefing, readingTime } from "../src/lib/briefing";
 import { classifyTopic } from "../src/lib/classify";
+import { fetchEdition, formatMissingSources } from "../src/lib/fetchEdition";
 import { canonicalizeUrl } from "../src/lib/id";
 import { parseAnthropic } from "../src/lib/parseAnthropic";
 import { parseFeed } from "../src/lib/parseFeed";
@@ -34,6 +35,54 @@ test("classifies policy, chips, startups, and named frontier launches in priorit
   assert.equal(classifyTopic("AI startup raises Series A", "The seed round.", "verge"), "startups");
   assert.equal(classifyTopic("Introducing GPT-99", "A new model.", "openai"), "frontier-models");
   assert.equal(classifyTopic("Introducing Claude 9", "", "anthropic"), "frontier-models");
+});
+
+test("classifies proofs, hypotheses, and lab claims as research", () => {
+  assert.equal(
+    classifyTopic(
+      "AI claimed a solution to the 167-year-old Riemann Hypothesis — and a human did, too",
+      "A mathematician says the argument is ready for review.",
+      "techcrunch",
+    ),
+    "research",
+  );
+  assert.equal(classifyTopic("The lab claims a faster training method", "", "mit"), "research");
+  assert.equal(classifyTopic("A laboratory claim about model scaling", "", "ars"), "research");
+  assert.equal(
+    classifyTopic("Company ships a proof of concept assistant", "A new product for teams.", "verge"),
+    "products",
+  );
+  assert.equal(classifyTopic("Nvidia researchers unveil a GPU", "", "techcrunch"), "chips");
+  assert.equal(classifyTopic("Senate study finds an AI paper flawed", "", "ars"), "policy");
+});
+
+test("names the publisher feeds that failed and keeps the ones that returned stories", async () => {
+  assert.equal(formatMissingSources(["The Verge"]), "The Verge");
+  assert.equal(formatMissingSources(["The Verge", "Anthropic"]), "The Verge and Anthropic");
+  assert.equal(
+    formatMissingSources(["The Verge", "MIT Technology Review", "Anthropic"]),
+    "The Verge, MIT Technology Review, and Anthropic",
+  );
+
+  const xml = await fixture("rss.xml");
+  const original = globalThis.fetch;
+  globalThis.fetch = async (input) => {
+    const url = String(input);
+    if (url.endsWith("/feeds/openai")) {
+      return new Response(xml, { status: 200, headers: { "content-type": "application/rss+xml" } });
+    }
+    return new Response("", { status: 502 });
+  };
+  try {
+    const edition = await fetchEdition();
+    assert.equal(edition.successfulSources, 1);
+    assert.equal(edition.failedSourceIds.includes("openai"), false);
+    assert.equal(edition.failedSourceIds.includes("verge"), true);
+    assert.equal(edition.failedSourceIds.length, SOURCES.length - 1);
+    assert.ok(edition.stories.length > 0);
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test("canonicalizes tracking parameters without changing the article path", () => {

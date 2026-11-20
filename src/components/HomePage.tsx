@@ -1,6 +1,7 @@
 import { useCallback, useDeferredValue, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { SOURCES } from "../data/sources";
+import { formatMissingSources, type SourceCoverage } from "../lib/fetchEdition";
 import { addRecentSearch, clearRecentSearches, readRecentSearches } from "../lib/activity";
 import {
   highlightTerms,
@@ -34,6 +35,7 @@ interface HomePageProps {
   refreshing: boolean;
   readIds: Set<string>;
   lastVisit?: string;
+  coverage?: SourceCoverage;
 }
 
 const GROUP_ORDER: TimeGroup[] = ["Last hour", "Today", "Yesterday", "This week", "Earlier"];
@@ -48,6 +50,7 @@ export function HomePage({
   refreshing,
   readIds,
   lastVisit,
+  coverage,
 }: HomePageProps) {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -59,6 +62,10 @@ export function HomePage({
   const [recent, setRecent] = useState(() => readRecentSearches());
 
   const savedIds = useMemo(() => new Set(savedStories.map((story) => story.id)), [savedStories]);
+  const missingNames = (coverage?.failedSourceIds ?? [])
+    .map((id) => SOURCES.find((source) => source.id === id)?.name)
+    .filter((name): name is string => Boolean(name));
+  const missingLabel = formatMissingSources(missingNames);
   const lastVisitTime = lastVisit ? Date.parse(lastVisit) : undefined;
   const isNew = (story: Story) => lastVisitTime !== undefined && Date.parse(story.publishedAt) > lastVisitTime;
 
@@ -183,7 +190,20 @@ export function HomePage({
           >
             <strong>{unreadCount}</strong> unread {unreadOnly ? "· showing" : ""}
           </button>
+          {coverage && (
+            <span
+              className={`pulse-stat${missingLabel ? " is-partial" : ""}`}
+              aria-describedby={missingLabel ? "source-gap" : undefined}
+            >
+              <strong>{coverage.successfulSources}</strong> of {SOURCES.length} sources
+            </span>
+          )}
         </div>
+      )}
+      {missingLabel && (
+        <p className="source-gap" id="source-gap">
+          Missing {missingLabel}.
+        </p>
       )}
 
       <SearchField
