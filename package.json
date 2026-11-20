@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "generate-icons": "pwa-assets-generator",
+    "prepare-desktop": "tsx scripts/export-sources.ts",
+    "desktop": "npm run build && npm run prepare-desktop && electron .",
+    "desktop:dev": "npm run prepare-desktop && concurrently -k \"vite\" \"wait-on http://127.0.0.1:5173 && cross-env ELECTRON_START_URL=http://127.0.0.1:5173 electron .\"",
+    "dist:desktop": "npm run build && npm run prepare-desktop && electron-builder",
+    "preview:lan": "npm run build && vite preview --host --port 4173"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -18,10 +24,49 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vite-pwa/assets-generator": "^2.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^10.0.7",
+    "cross-env": "^10.1.0",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
     "jsdom": "^25.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "vite-plugin-pwa": "^2.0.0",
+    "wait-on": "^9.5.1"
+  },
+  "main": "electron/main.mjs",
+  "description": "AI Hunter-News — AI world news reader",
+  "author": "Roshan Mali",
+  "build": {
+    "appId": "com.aihunternews.app",
+    "productName": "AI Hunter-News",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.news"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "News"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

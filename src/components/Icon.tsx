@@ -12,7 +12,10 @@ export type IconName =
   | "saved"
   | "back"
   | "clock"
-  | "check";
+  | "check"
+  | "sun"
+  | "moon"
+  | "monitor";
 
 const paths: Record<IconName, string> = {
   search: "M20 20l-4.4-4.4M18 10.5a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z",
@@ -27,6 +30,9 @@ const paths: Record<IconName, string> = {
   back: "m15 18-6-6 6-6M9 12h11",
   clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-16v6l4 2",
   check: "m5 12 4 4L19 6",
+  sun: "M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 1.5v2M12 20.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1.5 12h2M20.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4",
+  moon: "M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z",
+  monitor: "M3 5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5ZM8 21h8M12 17v4",
 };
 
 interface IconProps extends SVGProps<SVGSVGElement> {

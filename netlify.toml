@@ -1,0 +1,20 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Electron is only needed for the desktop app; skip its large binary on Netlify.
+  ELECTRON_SKIP_BINARY_DOWNLOAD = "1"
+
+# Single-page app routing (the /feeds/:id function takes precedence over this).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Always fetch the newest service worker so updates reach installed apps.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

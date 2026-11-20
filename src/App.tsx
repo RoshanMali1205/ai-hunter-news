@@ -102,6 +102,24 @@ function ReaderApp() {
     };
   }, [refreshCount]);
 
+  // Fetch fresh news when the installed app is reopened or the phone comes back online.
+  const updatedAtRef = useRef(updatedAt);
+  updatedAtRef.current = updatedAt;
+  useEffect(() => {
+    const STALE_MS = 5 * 60_000;
+    const refreshIfStale = () => {
+      if (document.visibilityState !== "visible" || !navigator.onLine) return;
+      const last = updatedAtRef.current ? Date.parse(updatedAtRef.current) : 0;
+      if (Date.now() - last > STALE_MS) setRefreshCount((count) => count + 1);
+    };
+    document.addEventListener("visibilitychange", refreshIfStale);
+    window.addEventListener("online", refreshIfStale);
+    return () => {
+      document.removeEventListener("visibilitychange", refreshIfStale);
+      window.removeEventListener("online", refreshIfStale);
+    };
+  }, []);
+
   const onToggleSaved = (story: Story) => {
     const next = toggleSavedStory(savedStories, story);
     setSavedStories(next);

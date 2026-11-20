@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import type { Connect, Plugin } from "vite";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 import { SOURCES } from "./src/data/sources";
 
 function installFeedProxy(middlewares: Connect.Server): void {
@@ -55,6 +56,60 @@ const feedProxy: Plugin = {
 };
 
 export default defineConfig({
-  plugins: [react(), feedProxy],
+  plugins: [
+    react(),
+    feedProxy,
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.svg", "favicon.ico", "apple-touch-icon-180x180.png"],
+      manifest: {
+        name: "AI Hunter-News",
+        short_name: "Hunter-News",
+        description: "A sharper lens on artificial intelligence — AI news from the best sources.",
+        theme_color: "#F4EFE6",
+        background_color: "#F4EFE6",
+        display: "standalone",
+        start_url: "/",
+        scope: "/",
+        categories: ["news"],
+        icons: [
+          { src: "pwa-64x64.png", sizes: "64x64", type: "image/png" },
+          { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
+          { src: "pwa-512x512.png", sizes: "512x512", type: "image/png" },
+          { src: "maskable-icon-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+        ],
+        shortcuts: [
+          { name: "Topics", url: "/topics" },
+          { name: "Saved", url: "/saved" },
+        ],
+      },
+      workbox: {
+        navigateFallback: "/index.html",
+        navigateFallbackDenylist: [/^\/feeds\//],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith("/feeds/"),
+            handler: "NetworkFirst",
+            options: { cacheName: "feeds", networkTimeoutSeconds: 6, expiration: { maxEntries: 20, maxAgeSeconds: 86400 } },
+          },
+          {
+            urlPattern: ({ url }) => url.origin === "https://fonts.googleapis.com",
+            handler: "StaleWhileRevalidate",
+            options: { cacheName: "google-fonts-css" },
+          },
+          {
+            urlPattern: ({ url }) => url.origin === "https://fonts.gstatic.com",
+            handler: "CacheFirst",
+            options: { cacheName: "google-fonts-files", expiration: { maxEntries: 20, maxAgeSeconds: 31536000 }, cacheableResponse: { statuses: [0, 200] } },
+          },
+          {
+            urlPattern: ({ request }) => request.destination === "image",
+            handler: "StaleWhileRevalidate",
+            options: { cacheName: "images", expiration: { maxEntries: 80, maxAgeSeconds: 604800 }, cacheableResponse: { statuses: [0, 200] } },
+          },
+        ],
+      },
+    }),
+  ],
   server: { host: "127.0.0.1" },
 });
