@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { InstallButton } from "./InstallButton";
+import { ThemeToggle } from "./ThemeToggle";
 import { Icon, type IconName } from "./Icon";
 
 interface BottomNavProps {
@@ -14,6 +16,10 @@ const items: { to: string; label: string; icon: IconName; end?: boolean }[] = [
 export function BottomNav({ savedCount }: BottomNavProps) {
   return (
     <nav className="bottom-nav" aria-label="Main navigation">
+      <span className="side-brand" aria-hidden="true">
+        <span className="wordmark-monogram">AH</span>
+        <span className="wordmark-name">Hunter-News</span>
+      </span>
       {items.map((item) => (
         <NavLink
           key={item.to}
@@ -30,6 +36,10 @@ export function BottomNav({ savedCount }: BottomNavProps) {
           <span>{item.label}</span>
         </NavLink>
       ))}
+      <div className="side-footer">
+        <ThemeToggle className="side-theme-toggle" />
+        <InstallButton />
+      </div>
     </nav>
   );
 }

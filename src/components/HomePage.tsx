@@ -8,6 +8,7 @@ import { SearchField } from "./SearchField";
 import { StateMessage } from "./StateMessage";
 import { StoryLead } from "./StoryLead";
 import { StoryRow } from "./StoryRow";
+import { ThemeToggle } from "./ThemeToggle";
 import { TopicChips } from "./TopicChips";
 
 interface HomePageProps {
@@ -57,6 +58,8 @@ export function HomePage({
             <span className="wordmark-name">AI Hunter-News</span>
           </span>
         </Link>
+        <div className="header-actions">
+        <ThemeToggle className="header-theme-toggle" />
         <button
           className={`refresh-button${refreshing ? " is-refreshing" : ""}`}
           type="button"
@@ -66,6 +69,7 @@ export function HomePage({
         >
           <Icon name="refresh" />
         </button>
+        </div>
       </header>
 
       <div className="edition-date">
