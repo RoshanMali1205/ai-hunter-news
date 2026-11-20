@@ -1,5 +1,12 @@
 import type { SourceDefinition, TopicId } from "../types";
 
+/**
+ * Sent by every feed proxy (dev server, Netlify function, desktop app).
+ * Some publishers' bot protection (e.g. TechCrunch via Cloudflare) rejects a bare
+ * "Mozilla/5.0" with 403 but accepts a clearly identified feed reader.
+ */
+export const FEED_USER_AGENT = "AIHunterNews/1.0 (RSS reader; +https://ai-hunter-news.netlify.app)";
+
 export const SOURCES: SourceDefinition[] = [
   {
     id: "techcrunch",

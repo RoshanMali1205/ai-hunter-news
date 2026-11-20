@@ -31,11 +31,12 @@ const sourcesPromise = readFile(path.join(here, "sources.json"), "utf8").then(JS
 // Same /feeds/:id proxy the Vite dev server and the Netlify function provide,
 // fetched from the main process so feeds load without browser CORS limits.
 async function serveFeed(id) {
-  const target = (await sourcesPromise)[id];
+  const { userAgent, feeds } = await sourcesPromise;
+  const target = feeds[id];
   if (!target) return new Response(null, { status: 404 });
   try {
     const upstream = await fetch(target, {
-      headers: { "User-Agent": "Mozilla/5.0" },
+      headers: { "User-Agent": userAgent },
       redirect: "follow",
       signal: AbortSignal.timeout(8000),
     });

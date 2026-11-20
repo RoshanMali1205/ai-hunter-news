@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import type { Connect, Plugin } from "vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import { SOURCES } from "./src/data/sources";
+import { FEED_USER_AGENT, SOURCES } from "./src/data/sources";
 
 function installFeedProxy(middlewares: Connect.Server): void {
   middlewares.use(async (request, response, next) => {
@@ -16,7 +16,7 @@ function installFeedProxy(middlewares: Connect.Server): void {
 
     try {
       const upstream = await fetch(source.feedUrl, {
-        headers: { "User-Agent": "Mozilla/5.0" },
+        headers: { "User-Agent": FEED_USER_AGENT },
         redirect: "follow",
         signal: AbortSignal.timeout(8_000),
       });
