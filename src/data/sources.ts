@@ -1,0 +1,127 @@
+import type { SourceDefinition, TopicId } from "../types";
+
+export const SOURCES: SourceDefinition[] = [
+  {
+    id: "techcrunch",
+    name: "TechCrunch",
+    shortName: "TechCrunch",
+    initials: "TC",
+    color: "#5E7A62",
+    feedUrl: "https://techcrunch.com/category/artificial-intelligence/feed/",
+    siteUrl: "https://techcrunch.com",
+    format: "rss",
+  },
+  {
+    id: "verge",
+    name: "The Verge",
+    shortName: "The Verge",
+    initials: "V",
+    color: "#1C1915",
+    feedUrl: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+    siteUrl: "https://www.theverge.com",
+    format: "atom",
+  },
+  {
+    id: "mit",
+    name: "MIT Technology Review",
+    shortName: "MIT Tech Review",
+    initials: "MIT TR",
+    color: "#A16207",
+    feedUrl: "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+    siteUrl: "https://www.technologyreview.com",
+    format: "rss",
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    shortName: "OpenAI",
+    initials: "OA",
+    color: "#1C1915",
+    feedUrl: "https://openai.com/news/rss.xml",
+    siteUrl: "https://openai.com",
+    format: "rss",
+  },
+  {
+    id: "google",
+    name: "Google AI",
+    shortName: "Google",
+    initials: "G",
+    color: "#1E4B8A",
+    feedUrl: "https://blog.google/technology/ai/rss/",
+    siteUrl: "https://blog.google/technology/ai",
+    format: "rss",
+  },
+  {
+    id: "deepmind",
+    name: "Google DeepMind",
+    shortName: "DeepMind",
+    initials: "DM",
+    color: "#1E4B8A",
+    feedUrl: "https://deepmind.google/blog/rss.xml",
+    siteUrl: "https://deepmind.google",
+    format: "rss",
+  },
+  {
+    id: "ars",
+    name: "Ars Technica",
+    shortName: "Ars Technica",
+    initials: "ARS",
+    color: "#C4512C",
+    feedUrl: "https://arstechnica.com/ai/feed/",
+    siteUrl: "https://arstechnica.com",
+    format: "rss",
+  },
+  {
+    id: "anthropic",
+    name: "Anthropic",
+    shortName: "Anthropic",
+    initials: "AN",
+    color: "#1C1915",
+    feedUrl: "https://www.anthropic.com/news",
+    siteUrl: "https://www.anthropic.com",
+    format: "html",
+  },
+];
+
+export const TOPICS: { id: TopicId; label: string; color: string; description: string }[] = [
+  {
+    id: "frontier-models",
+    label: "Frontier models",
+    color: "#1E4B8A",
+    description: "The newest models, capabilities, and research milestones.",
+  },
+  {
+    id: "products",
+    label: "Products",
+    color: "#C4512C",
+    description: "Tools and features bringing AI into everyday life.",
+  },
+  {
+    id: "research",
+    label: "Research",
+    color: "#2F7D4F",
+    description: "Papers, benchmarks, and the ideas shaping what comes next.",
+  },
+  {
+    id: "policy",
+    label: "Policy",
+    color: "#6E3048",
+    description: "Rules, public institutions, and the decisions around AI.",
+  },
+  {
+    id: "chips",
+    label: "Chips",
+    color: "#A16207",
+    description: "The hardware and infrastructure behind intelligent systems.",
+  },
+  {
+    id: "startups",
+    label: "Startups",
+    color: "#1F4D3A",
+    description: "New companies and capital reshaping the AI industry.",
+  },
+];
+
+export const SOURCE_BY_ID = Object.fromEntries(
+  SOURCES.map((source) => [source.id, source]),
+) as Record<SourceDefinition["id"], SourceDefinition>;
