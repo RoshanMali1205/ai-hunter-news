@@ -1,4 +1,4 @@
-import { SOURCES } from "../../src/data/sources";
+import { FEED_USER_AGENT, SOURCES } from "../../src/data/sources";
 
 // Serves /feeds/:id on Netlify, same as the Vite dev proxy, so the PWA can fetch live news.
 export default async (_request: Request, context: { params: Record<string, string> }): Promise<Response> => {
@@ -7,7 +7,7 @@ export default async (_request: Request, context: { params: Record<string, strin
 
   try {
     const upstream = await fetch(source.feedUrl, {
-      headers: { "User-Agent": "Mozilla/5.0" },
+      headers: { "User-Agent": FEED_USER_AGENT },
       redirect: "follow",
       signal: AbortSignal.timeout(8_000),
     });
