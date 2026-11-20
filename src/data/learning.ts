@@ -89,7 +89,7 @@ export const LEARNING_ITEMS: LearningItem[] = [
     id: "ms-ai-103", title: "Azure AI Apps and Agents Developer Associate", provider: "Microsoft", examCode: "AI-103",
     url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-apps-and-agents-developer-associate/",
     kind: "certification", cost: "free-learn", level: "intermediate", roles: ["developer", "fde"],
-    note: "Microsoft's current developer certification for building AI apps and agents on Azure (replaces the retired AI-102).",
+    note: "Microsoft's current developer certification for building AI apps and agents on Azure (the older AI-102 is retired).",
   },
   {
     id: "ms-gh-300", title: "GitHub Copilot", provider: "GitHub · Microsoft", examCode: "GH-300",
