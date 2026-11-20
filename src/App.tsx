@@ -11,7 +11,7 @@ import { TopicEditionPage } from "./components/TopicEditionPage";
 import { TopicsPage } from "./components/TopicsPage";
 import { FALLBACK_STORIES } from "./data/fallback";
 import { addReadId, readReadIds, takeLastVisit } from "./lib/activity";
-import { fetchEdition } from "./lib/fetchEdition";
+import { fetchEdition, type SourceCoverage } from "./lib/fetchEdition";
 import {
   readEdition,
   readSavedStories,
@@ -65,6 +65,7 @@ function ReaderApp() {
   const [initialEdition] = useState(() => readEdition());
   const [stories, setStories] = useState<Story[]>(initialEdition?.stories ?? []);
   const [updatedAt, setUpdatedAt] = useState(initialEdition?.updatedAt);
+  const [coverage, setCoverage] = useState<SourceCoverage>();
   const hasLiveEditionRef = useRef(Boolean(initialEdition));
   const [savedStories, setSavedStories] = useState(() => readSavedStories());
   const [refreshError, setRefreshError] = useState("");
@@ -90,6 +91,10 @@ function ReaderApp() {
         }
         setStories(edition.stories);
         setUpdatedAt(edition.updatedAt);
+        setCoverage({
+          successfulSources: edition.successfulSources,
+          failedSourceIds: edition.failedSourceIds,
+        });
         hasLiveEditionRef.current = true;
         setRefreshError("");
       })
@@ -171,6 +176,7 @@ function ReaderApp() {
               refreshing={refreshing}
               readIds={readIds}
               lastVisit={lastVisit}
+              coverage={coverage}
             />
           }
         />

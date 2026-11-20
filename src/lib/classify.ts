@@ -22,8 +22,14 @@ export function classifyTopic(title: string, summary: string, source: SourceId):
   ) {
     return "startups";
   }
-  // Microsoft Research posts are research by definition.
-  if (source === "msresearch" || /\b(arxiv|peer-reviewed|benchmark|dataset|researchers|study finds|paper)\b/.test(text)) {
+  // Microsoft Research posts are research by definition. Proofs, hypotheses,
+  // and lab claims are research even when a news publisher wrote them.
+  if (
+    source === "msresearch" ||
+    /\b(arxiv|peer-reviewed|benchmark|dataset|researchers|study finds|paper|hypothesis|theorem|conjecture|mathematicians?|mathematics|proved|proven|proves|(?:lab|laboratory) claims?)\b/.test(
+      text,
+    )
+  ) {
     return "research";
   }
 

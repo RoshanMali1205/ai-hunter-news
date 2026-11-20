@@ -386,8 +386,9 @@ mark { padding: 0 1px; border-radius: 3px; background: color-mix(in srgb, var(--
   color: var(--muted); font-family: var(--mono); font-size: 11px;
 }
 .pulse-stat strong { color: var(--ink); font-weight: 600; }
-.pulse-stat.is-new { border-color: color-mix(in srgb, var(--rust) 45%, var(--line)); color: var(--rust); }
-.pulse-stat.is-new strong { color: var(--rust); }
+.pulse-stat.is-new, .pulse-stat.is-partial { border-color: color-mix(in srgb, var(--rust) 45%, var(--line)); color: var(--rust); }
+.pulse-stat.is-new strong, .pulse-stat.is-partial strong { color: var(--rust); }
+.source-gap { margin: -8px 0 14px; color: var(--muted); font-family: var(--mono); font-size: 11px; line-height: 1.45; }
 .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rust-fill); animation: pulse 1.8s ease-out infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--rust-fill) 55%, transparent); } 100% { box-shadow: 0 0 0 8px transparent; } }
 .pulse-toggle { cursor: pointer; }
