@@ -10,6 +10,8 @@ interface BottomNavProps {
 const items: { to: string; label: string; icon: IconName; end?: boolean }[] = [
   { to: "/", label: "Home", icon: "home", end: true },
   { to: "/topics", label: "Topics", icon: "topics" },
+  { to: "/repos", label: "Repos", icon: "repo" },
+  { to: "/learn", label: "Learn", icon: "cap" },
   { to: "/saved", label: "Saved", icon: "saved" },
 ];
 

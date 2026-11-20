@@ -25,13 +25,18 @@ export function hashCanonicalUrl(value: string): string {
 
 export function assignUniqueIds(stories: Story[]): Story[] {
   const canonicalUrls = new Set<string>();
+  const titles = new Set<string>();
   const usedIds = new Set<string>();
   const result: Story[] = [];
 
   for (const story of stories) {
     const canonicalUrl = canonicalizeUrl(story.url);
-    if (canonicalUrls.has(canonicalUrl)) continue;
+    // Publishers sometimes list one story under two URLs (e.g. with and without a trailing
+    // slash, or a category path); treat the same title from the same source as a duplicate.
+    const titleKey = `${story.source}|${story.title.toLowerCase().replace(/\s+/g, " ").trim()}`;
+    if (canonicalUrls.has(canonicalUrl) || titles.has(titleKey)) continue;
     canonicalUrls.add(canonicalUrl);
+    titles.add(titleKey);
 
     const baseId = hashCanonicalUrl(canonicalUrl);
     let id = baseId;

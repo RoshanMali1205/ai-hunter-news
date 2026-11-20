@@ -16,7 +16,9 @@ export type SourceId =
   | "google"
   | "deepmind"
   | "ars"
-  | "anthropic";
+  | "anthropic"
+  | "microsoft"
+  | "msresearch";
 
 export interface Story {
   id: string;

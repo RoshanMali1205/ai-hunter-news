@@ -1,13 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { ArticleView } from "./components/ArticleView";
 import { HomePage } from "./components/HomePage";
+import { LearnPage } from "./components/LearnPage";
+import { ReposPage } from "./components/ReposPage";
 import { SavedPage } from "./components/SavedPage";
 import { Shell } from "./components/Shell";
 import { StateMessage } from "./components/StateMessage";
 import { TopicEditionPage } from "./components/TopicEditionPage";
 import { TopicsPage } from "./components/TopicsPage";
 import { FALLBACK_STORIES } from "./data/fallback";
+import { addReadId, readReadIds, takeLastVisit } from "./lib/activity";
 import { fetchEdition } from "./lib/fetchEdition";
 import {
   readEdition,
@@ -23,14 +26,20 @@ function StoryRoute({
   savedStories,
   loading,
   onToggleSaved,
+  onRead,
 }: {
   stories: Story[];
   savedStories: Story[];
   loading: boolean;
   onToggleSaved: (story: Story) => void;
+  onRead: (id: string) => void;
 }) {
   const { id } = useParams();
   const story = [...stories, ...savedStories].find((item) => item.id === id);
+  const storyId = story?.id;
+  useEffect(() => {
+    if (storyId) onRead(storyId);
+  }, [storyId, onRead]);
   if (!story && loading && stories.length === 0 && savedStories.length === 0) {
     return (
       <main className="page-content">
@@ -62,6 +71,9 @@ function ReaderApp() {
   const [storageError, setStorageError] = useState("");
   const [refreshing, setRefreshing] = useState(true);
   const [refreshCount, setRefreshCount] = useState(0);
+  const [readIds, setReadIds] = useState(() => readReadIds());
+  const [lastVisit] = useState(() => takeLastVisit());
+  const onRead = useCallback((id: string) => setReadIds((current) => addReadId(current, id)), []);
 
   useEffect(() => {
     let active = true;
@@ -157,6 +169,8 @@ function ReaderApp() {
               onToggleSaved={onToggleSaved}
               onRefresh={onRefresh}
               refreshing={refreshing}
+              readIds={readIds}
+              lastVisit={lastVisit}
             />
           }
         />
@@ -182,6 +196,8 @@ function ReaderApp() {
             />
           }
         />
+        <Route path="/repos" element={<ReposPage />} />
+        <Route path="/learn" element={<LearnPage />} />
         <Route
           path="/saved"
           element={<SavedPage savedStories={savedStories} onToggleSaved={onToggleSaved} />}
@@ -194,6 +210,7 @@ function ReaderApp() {
               savedStories={savedStories}
               loading={refreshing}
               onToggleSaved={onToggleSaved}
+              onRead={onRead}
             />
           }
         />

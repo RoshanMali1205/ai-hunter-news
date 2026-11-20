@@ -1,6 +1,6 @@
 import type { SourceId, TopicId } from "../types";
 
-const FRONTIER_SOURCES = new Set<SourceId>(["openai", "deepmind", "anthropic", "google"]);
+const FRONTIER_SOURCES = new Set<SourceId>(["openai", "deepmind", "anthropic", "google", "microsoft"]);
 
 export function classifyTopic(title: string, summary: string, source: SourceId): TopicId {
   const text = `${title} ${summary} ${source}`.toLowerCase();
@@ -22,14 +22,15 @@ export function classifyTopic(title: string, summary: string, source: SourceId):
   ) {
     return "startups";
   }
-  if (/\b(arxiv|peer-reviewed|benchmark|dataset|researchers|study finds|paper)\b/.test(text)) {
+  // Microsoft Research posts are research by definition.
+  if (source === "msresearch" || /\b(arxiv|peer-reviewed|benchmark|dataset|researchers|study finds|paper)\b/.test(text)) {
     return "research";
   }
 
   if (
     FRONTIER_SOURCES.has(source) &&
-    (/\b(introducing|announc(?:e|ed|es)|launch(?:es|ed)?|weights)\b/.test(title.toLowerCase()) ||
-      /\b(gpt|claude|gemini|llama|opus|sonnet|haiku|genie)[\s-]?\d+(?:\.\d+)?\b/i.test(title))
+    (/\b(introducing|announc(?:e|ed|es)|launch(?:es|ed)?|unveil(?:s|ed)?|weights)\b/.test(title.toLowerCase()) ||
+      /\b(gpt|claude|gemini|llama|opus|sonnet|haiku|genie|phi|mai)[\s-]?\d+(?:\.\d+)?\b/i.test(title))
   ) {
     return "frontier-models";
   }
