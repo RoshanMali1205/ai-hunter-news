@@ -29,12 +29,27 @@ Object.defineProperty(globalThis, "window", { value: window, configurable: true 
 const fixture = (name: string) => readFile(join(import.meta.dirname, "fixtures", name), "utf8");
 const source = (id: SourceDefinition["id"]) => SOURCES.find((item) => item.id === id)!;
 
+test("every publisher feed is a unique https source in a newsroom or a lab", () => {
+  const ids = SOURCES.map((source) => source.id);
+  assert.equal(new Set(ids).size, ids.length);
+  for (const source of SOURCES) {
+    assert.match(source.feedUrl, /^https:\/\//, source.id);
+    assert.ok(source.group === "newsroom" || source.group === "lab", source.id);
+    assert.ok(source.initials.length > 0 && source.initials.length <= 6, source.id);
+  }
+  for (const id of ["ieee", "interconnects", "huggingface", "mistral", "nvidia"]) {
+    assert.ok(SOURCES.some((source) => source.id === id), id);
+  }
+});
+
 test("classifies policy, chips, startups, and named frontier launches in priority order", () => {
   assert.equal(classifyTopic("Senate advances AI legislation", "A new federal rule.", "openai"), "policy");
   assert.equal(classifyTopic("Nvidia unveils a new GPU", "A launch.", "techcrunch"), "chips");
   assert.equal(classifyTopic("AI startup raises Series A", "The seed round.", "verge"), "startups");
   assert.equal(classifyTopic("Introducing GPT-99", "A new model.", "openai"), "frontier-models");
   assert.equal(classifyTopic("Introducing Claude 9", "", "anthropic"), "frontier-models");
+  assert.equal(classifyTopic("Introducing Timestral", "A new model.", "mistral"), "frontier-models");
+  assert.equal(classifyTopic("NVIDIA Announces Rubin, a new GPU", "A chip.", "nvidia"), "chips");
 });
 
 test("classifies proofs, hypotheses, and lab claims as research", () => {

@@ -1,6 +1,6 @@
 import { useCallback, useDeferredValue, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { SOURCES } from "../data/sources";
+import { SOURCE_GROUPS, SOURCES } from "../data/sources";
 import { formatMissingSources, type SourceCoverage } from "../lib/fetchEdition";
 import { addRecentSearch, clearRecentSearches, readRecentSearches } from "../lib/activity";
 import {
@@ -221,23 +221,30 @@ export function HomePage({
       />
       <TopicChips active={activeTopic} onSelect={setActiveTopic} />
 
-      <div className="source-filter" role="group" aria-label="Filter by source">
-        {SOURCES.map((source) => {
-          const active = activeSources.includes(source.id);
-          return (
-            <button
-              type="button"
-              key={source.id}
-              className={`source-chip${active ? " is-active" : ""}`}
-              aria-pressed={active}
-              onClick={() => toggleSource(source.id)}
-              title={source.name}
-            >
-              <SourcePlate source={source.id} compact />
-              <span>{source.shortName}</span>
-            </button>
-          );
-        })}
+      <div className="source-groups">
+        {SOURCE_GROUPS.map((group) => (
+          <div className="source-group" key={group.id}>
+            <span className="source-group-label" id={`sources-${group.id}`}>{group.label}</span>
+            <div className="source-filter" role="group" aria-labelledby={`sources-${group.id}`}>
+              {SOURCES.filter((source) => source.group === group.id).map((source) => {
+                const active = activeSources.includes(source.id);
+                return (
+                  <button
+                    type="button"
+                    key={source.id}
+                    className={`source-chip${active ? " is-active" : ""}`}
+                    aria-pressed={active}
+                    onClick={() => toggleSource(source.id)}
+                    title={source.name}
+                  >
+                    <SourcePlate source={source.id} compact />
+                    <span>{source.shortName}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {loading && stories.length === 0 ? (

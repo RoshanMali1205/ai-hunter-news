@@ -17,6 +17,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://techcrunch.com/category/artificial-intelligence/feed/",
     siteUrl: "https://techcrunch.com",
     format: "rss",
+    group: "newsroom",
   },
   {
     id: "verge",
@@ -27,6 +28,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
     siteUrl: "https://www.theverge.com",
     format: "atom",
+    group: "newsroom",
   },
   {
     id: "mit",
@@ -37,6 +39,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://www.technologyreview.com/topic/artificial-intelligence/feed",
     siteUrl: "https://www.technologyreview.com",
     format: "rss",
+    group: "newsroom",
   },
   {
     id: "openai",
@@ -47,6 +50,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://openai.com/news/rss.xml",
     siteUrl: "https://openai.com",
     format: "rss",
+    group: "lab",
   },
   {
     id: "google",
@@ -57,6 +61,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://blog.google/technology/ai/rss/",
     siteUrl: "https://blog.google/technology/ai",
     format: "rss",
+    group: "lab",
   },
   {
     id: "deepmind",
@@ -67,6 +72,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://deepmind.google/blog/rss.xml",
     siteUrl: "https://deepmind.google",
     format: "rss",
+    group: "lab",
   },
   {
     id: "ars",
@@ -77,6 +83,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://arstechnica.com/ai/feed/",
     siteUrl: "https://arstechnica.com",
     format: "rss",
+    group: "newsroom",
   },
   {
     id: "anthropic",
@@ -87,6 +94,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://www.anthropic.com/news",
     siteUrl: "https://www.anthropic.com",
     format: "html",
+    group: "lab",
   },
   {
     id: "microsoft",
@@ -97,6 +105,7 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://news.microsoft.com/source/topics/ai/feed/",
     siteUrl: "https://news.microsoft.com/source/topics/ai/",
     format: "rss",
+    group: "lab",
   },
   {
     id: "msresearch",
@@ -107,7 +116,68 @@ export const SOURCES: SourceDefinition[] = [
     feedUrl: "https://www.microsoft.com/en-us/research/feed/",
     siteUrl: "https://www.microsoft.com/en-us/research/",
     format: "rss",
+    group: "lab",
   },
+  {
+    id: "ieee",
+    name: "IEEE Spectrum",
+    shortName: "IEEE Spectrum",
+    initials: "IEEE",
+    color: "#7A3E2E",
+    feedUrl: "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+    siteUrl: "https://spectrum.ieee.org",
+    format: "rss",
+    group: "newsroom",
+  },
+  {
+    id: "interconnects",
+    name: "Interconnects",
+    shortName: "Interconnects",
+    initials: "IC",
+    color: "#2C4A6E",
+    feedUrl: "https://www.interconnects.ai/feed",
+    siteUrl: "https://www.interconnects.ai",
+    format: "rss",
+    group: "newsroom",
+  },
+  {
+    id: "huggingface",
+    name: "Hugging Face",
+    shortName: "Hugging Face",
+    initials: "HF",
+    color: "#1F4D3A",
+    feedUrl: "https://huggingface.co/blog/feed.xml",
+    siteUrl: "https://huggingface.co/blog",
+    format: "rss",
+    group: "lab",
+  },
+  {
+    id: "mistral",
+    name: "Mistral",
+    shortName: "Mistral",
+    initials: "MI",
+    color: "#8A4B2F",
+    feedUrl: "https://mistral.ai/rss.xml",
+    siteUrl: "https://mistral.ai",
+    format: "rss",
+    group: "lab",
+  },
+  {
+    id: "nvidia",
+    name: "NVIDIA",
+    shortName: "NVIDIA",
+    initials: "NV",
+    color: "#3D6B1F",
+    feedUrl: "https://blogs.nvidia.com/blog/category/generative-ai/feed/",
+    siteUrl: "https://blogs.nvidia.com",
+    format: "rss",
+    group: "lab",
+  },
+];
+
+export const SOURCE_GROUPS: { id: SourceDefinition["group"]; label: string }[] = [
+  { id: "newsroom", label: "Newsrooms" },
+  { id: "lab", label: "Labs" },
 ];
 
 export const TOPICS: { id: TopicId; label: string; color: string; description: string }[] = [

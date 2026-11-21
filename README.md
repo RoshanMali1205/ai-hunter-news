@@ -4,7 +4,7 @@
 
 **The AI world, briefed for developers.**
 
-Live AI news from 10 trusted sources, curated GitHub repositories, and a role-based learning hub
+Live AI news from 15 trusted sources, curated GitHub repositories, and a role-based learning hub
 (available as a website, an installable PWA, and a desktop app).
 
 [**Live site →**](https://ai-hunter-news.netlify.app)
@@ -44,7 +44,7 @@ Live AI news from 10 trusted sources, curated GitHub repositories, and a role-ba
 ## Features
 
 ### 📰 News feed
-- **Live news from 10 sources:** TechCrunch, The Verge, MIT Technology Review, Ars Technica, OpenAI, Anthropic, Google AI, Google DeepMind, Microsoft and Microsoft Research.
+- **Live news from 15 sources:** TechCrunch, The Verge, MIT Technology Review, Ars Technica, IEEE Spectrum, Interconnects, OpenAI, Anthropic, Google AI, Google DeepMind, Microsoft, Microsoft Research, Hugging Face, Mistral and NVIDIA.
 - **Six topics,** sorted automatically by keyword rules: Frontier models, Products, Research, Policy, Chips and Startups.
 - **"New since your last visit" badges,** **read tracking** with an *Unread only* filter, and **source filter** chips.
 - **Time-grouped sections:** Last hour, Today, Yesterday, This week, Earlier.
@@ -109,7 +109,7 @@ flowchart LR
         P3["Electron main process<br/>app:// protocol handler"]
     end
 
-    Pubs["10 publisher feeds<br/>RSS · Atom · HTML"]
+    Pubs["Publisher feeds<br/>RSS · Atom · HTML"]
     GH["GitHub Search API<br/>(CORS-enabled)"]
 
     UI -- "fetch /feeds/:id" --> Proxy
@@ -147,7 +147,7 @@ sequenceDiagram
     U->>App: Open the app
     App->>LS: Read cached edition
     LS-->>App: Last edition (shown instantly)
-    par For each of the 10 sources
+    par For each source
         App->>P: GET /feeds/{source}
         P->>F: Fetch RSS / Atom / HTML
         F-->>P: Feed
