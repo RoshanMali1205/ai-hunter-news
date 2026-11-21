@@ -6,7 +6,6 @@ import type { Story } from "../types";
 import { BookmarkButton } from "./BookmarkButton";
 import { Icon } from "./Icon";
 import { ShareButton } from "./ShareButton";
-import { SourcePlate } from "./SourcePlate";
 import { StoryRow } from "./StoryRow";
 import { StateMessage } from "./StateMessage";
 
@@ -40,6 +39,7 @@ export function ArticleView({ story, allStories, savedStories, onToggleSaved }: 
     .slice(0, 4);
   const wordCount = story.summary.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(wordCount / 200));
+  const showImage = Boolean(story.image) && !imageFailed;
 
   return (
     <main className="article-page">
@@ -51,18 +51,16 @@ export function ArticleView({ story, allStories, savedStories, onToggleSaved }: 
         </div>
       </header>
       <article>
-        <div className={`article-hero${!story.image || imageFailed ? " no-image" : ""}`}>
-          {story.image && !imageFailed ? (
+        {showImage && (
+          <div className="article-hero">
             <img
               src={story.image}
               alt=""
               referrerPolicy="no-referrer"
               onError={() => setImageFailed(true)}
             />
-          ) : (
-            <SourcePlate source={story.source} />
-          )}
-        </div>
+          </div>
+        )}
         <div className="article-copy">
           <p className="article-kicker" style={{ "--topic-color": topic?.color } as React.CSSProperties}>
             {topic?.label} <span aria-hidden="true">/</span> {source.name}

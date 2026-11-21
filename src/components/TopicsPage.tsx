@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CURATED_REPOS } from "../data/repos";
-import { SOURCES, TOPICS } from "../data/sources";
+import { SOURCE_GROUPS, SOURCES, TOPICS } from "../data/sources";
 import { highlightTerms, isQueryActive, parseQuery, searchStories } from "../lib/search";
 import type { Story } from "../types";
 import { Icon } from "./Icon";
@@ -99,21 +99,29 @@ export function TopicsPage({ stories, savedStories, loading, onToggleSaved }: To
 
           <section className="sources-section" aria-labelledby="sources-title">
             <div className="section-label"><h2 id="sources-title">THE SOURCES</h2><span>{SOURCES.length} publishers</span></div>
-            <div className="source-list">
-              {SOURCES.map((source) => (
-                <a
-                  className="source-list-item"
-                  href={source.siteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={source.id}
-                >
-                  <SourcePlate source={source.id} compact />
-                  <span>{source.name}</span>
-                  <span className="source-list-arrow" aria-hidden="true">↗</span>
-                </a>
-              ))}
-            </div>
+            {SOURCE_GROUPS.map((group) => (
+              <div key={group.id}>
+                <div className="section-label">
+                  <h2>{group.label.toUpperCase()}</h2>
+                  <span>{SOURCES.filter((source) => source.group === group.id).length}</span>
+                </div>
+                <div className="source-list">
+                  {SOURCES.filter((source) => source.group === group.id).map((source) => (
+                    <a
+                      className="source-list-item"
+                      href={source.siteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={source.id}
+                    >
+                      <SourcePlate source={source.id} compact />
+                      <span>{source.name}</span>
+                      <span className="source-list-arrow" aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
           </section>
         </>
       )}

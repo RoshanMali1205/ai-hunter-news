@@ -17,24 +17,23 @@ interface StoryLeadProps {
 export function StoryLead({ story, saved, onToggleSaved, read = false, isNew = false }: StoryLeadProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const topic = TOPICS.find((item) => item.id === story.topic);
+  const showImage = Boolean(story.image) && !imageFailed;
 
   return (
-    <article className={`story-lead${read ? " is-read" : ""}`} data-feed-item data-story-id={story.id}>
-      <Link to={`/story/${story.id}`} className={`story-lead-visual${!story.image || imageFailed ? " no-image" : ""}`}>
-        {story.image && !imageFailed ? (
+    <article className={`story-lead${read ? " is-read" : ""}${showImage ? "" : " is-text"}`} data-feed-item data-story-id={story.id}>
+      {showImage && (
+        <Link to={`/story/${story.id}`} className="story-lead-visual">
           <img
             src={story.image}
             alt=""
             referrerPolicy="no-referrer"
             onError={() => setImageFailed(true)}
           />
-        ) : (
-          <SourcePlate source={story.source} />
-        )}
-        <span className="lead-topic" style={{ "--topic-color": topic?.color } as React.CSSProperties}>
-          {topic?.label}
-        </span>
-      </Link>
+          <span className="lead-topic" style={{ "--topic-color": topic?.color } as React.CSSProperties}>
+            {topic?.label}
+          </span>
+        </Link>
+      )}
       <div className="story-lead-copy">
         <div className="lead-byline">
           {isNew && <span className="new-badge">New</span>}
@@ -42,6 +41,11 @@ export function StoryLead({ story, saved, onToggleSaved, read = false, isNew = f
           <span>{SOURCE_BY_ID[story.source].name}</span>
           <span aria-hidden="true">·</span>
           <time dateTime={story.publishedAt}>{formatRelativeTime(story.publishedAt)}</time>
+          {!showImage && topic && (
+            <span className="row-topic" style={{ "--topic-color": topic.color } as React.CSSProperties}>
+              {topic.label}
+            </span>
+          )}
           <BookmarkButton
             saved={saved}
             onClick={() => onToggleSaved(story)}

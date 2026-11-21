@@ -18,7 +18,12 @@ export type SourceId =
   | "ars"
   | "anthropic"
   | "microsoft"
-  | "msresearch";
+  | "msresearch"
+  | "ieee"
+  | "interconnects"
+  | "huggingface"
+  | "mistral"
+  | "nvidia";
 
 export interface Story {
   id: string;
@@ -37,6 +42,7 @@ export interface CachedEdition {
 }
 
 export type FeedFormat = "rss" | "atom" | "html";
+export type SourceGroup = "newsroom" | "lab";
 
 export interface SourceDefinition {
   id: SourceId;
@@ -47,4 +53,5 @@ export interface SourceDefinition {
   feedUrl: string;
   siteUrl: string;
   format: FeedFormat;
+  group: SourceGroup;
 }

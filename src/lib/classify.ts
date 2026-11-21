@@ -1,6 +1,14 @@
 import type { SourceId, TopicId } from "../types";
 
-const FRONTIER_SOURCES = new Set<SourceId>(["openai", "deepmind", "anthropic", "google", "microsoft"]);
+const FRONTIER_SOURCES = new Set<SourceId>([
+  "openai",
+  "deepmind",
+  "anthropic",
+  "google",
+  "microsoft",
+  "mistral",
+  "huggingface",
+]);
 
 export function classifyTopic(title: string, summary: string, source: SourceId): TopicId {
   const text = `${title} ${summary} ${source}`.toLowerCase();

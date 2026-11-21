@@ -50,6 +50,11 @@ export function sourceNameForBriefing(source: SourceId): string {
     anthropic: "Anthropic",
     microsoft: "Microsoft",
     msresearch: "Microsoft Research",
+    ieee: "IEEE Spectrum",
+    interconnects: "Interconnects",
+    huggingface: "Hugging Face",
+    mistral: "Mistral",
+    nvidia: "NVIDIA",
   };
   return names[source];
 }
